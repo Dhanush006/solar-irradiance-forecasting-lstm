@@ -1,10 +1,12 @@
 # ☀️ Solar Irradiance Forecasting using LSTM (IEEE TENSYMP 2022)
 
-This repository contains the implementation of solar irradiance forecasting using LSTM neural networks, as described in the paper "Solar Irradiance Forecasting using Recurrent Neural Networks."
+This repository contains the complete implementation of a **solar irradiance forecasting system** using **Long Short-Term Memory (LSTM)** neural networks in MATLAB.
 
-# Solar Irradiance Forecasting Project
+We compare multiple input configurations — including **irradiance, temperature, and time of day** — to understand their contribution to prediction accuracy. Additionally, we propose an **ensemble model** where a separate LSTM first predicts temperature, which is then fed into a second LSTM that forecasts irradiance in a feedback loop.
 
-This repository implements solar irradiance forecasting using LSTM neural networks, as described in the paper "Solar Irradiance Forecasting using Recurrent Neural Networks" ([read the full report](Solar_Irradiance_forecasting_using_Recurrent_Neural_Networks.pdf)).
+📌 **Published at:**  
+IEEE Region 10 Symposium (TENSYMP 2022), *IIT Bombay*  
+🔗 [IEEE Xplore Link](https://ieeexplore.ieee.org/document/9864498)
 
 ---
 
@@ -14,28 +16,27 @@ The following flowchart outlines the process of data normalization, LSTM modelin
 
 ```mermaid
 graph TD
-    A[Start] --> B[Collect Data: Irradiance, Temperature, Time (5568 samples, 15-min intervals)]
+    A[Start] --> B[Collect Data: Irradiance, Temperature, Time, 5568 samples, 15-min intervals]
     B --> C[Data Preprocessing]
-    C --> C1[Moving Average Filter (Window = 10)]
-    C1 --> C2[Convert Time to Real Number (HH + MM/60)]
+    C --> C1[Moving Average Filter: Window 10]
+    C1 --> C2[Convert Time to Real Number: HH + MM/60]
     C --> D[Data Normalization]
-    D --> D1[Min-Max Normalization (Irradiance)]
-    D1 --> D2[Min-Max Normalization (Temperature)]
+    D --> D1[Min-Max Normalization: Irradiance]
+    D1 --> D2[Min-Max Normalization: Temperature]
     D --> E[Feature Engineering]
-    E --> E1[Create Sequences (Lag 1 time step)]
+    E --> E1[Create Sequences: Lag 1 time step]
     E --> F[LSTM Model Design]
-    F --> F1[Standalone LSTM: Temp(t-1), Time -> Temp(t)]
-    F1 --> F2[Dual-Input LSTM: Irr(t-1), Temp(t), Time -> Irr(t)]
+    F --> F1[Standalone LSTM: Temp t-1, Time to Temp t]
+    F1 --> F2[Dual-Input LSTM: Irr t-1, Temp t, Time to Irr t]
     F --> G[Model Training]
-    G --> G1[Train LSTMs (90 Units, 0.01 LR, 200 Epochs)]
+    G --> G1[Train LSTMs: 90 Units, 0.01 LR, 200 Epochs]
     G1 --> G2[Split Data: 80% Train, 10% Val, 10% Test]
     G --> H[Evaluate: RMSE, MAE, MAPE]
     H --> I[Predict Irradiance at t]
-    I --> J[Denormalize Predictions (Reverse Min-Max)]
-    J --> K[Output Results (Save/Visualize)]
+    I --> J[Denormalize Predictions: Reverse Min-Max]
+    J --> K[Output Results: Save or Visualize]
     K --> L[End]
 ```
-
 ---
 
 ## 🧠 Project Overview

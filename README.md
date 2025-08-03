@@ -6,32 +6,36 @@ This repository contains the implementation of solar irradiance forecasting usin
 
 This repository implements solar irradiance forecasting using LSTM neural networks, as described in the paper "Solar Irradiance Forecasting using Recurrent Neural Networks" ([read the full report](Solar_Irradiance_forecasting_using_Recurrent_Neural_Networks.pdf)).
 
+---
+
 ## Process Flowchart
 
 The following flowchart outlines the process of data normalization, LSTM modeling, and forecasting using irradiance, temperature, and time as inputs:
+
 ```mermaid
 graph TD
-    A[Start] --> B["Collect Input Data\nIrradiance, Temperature, Time\n5568 samples, 15-min intervals"]
+    A[Start] --> B[Collect Data: Irradiance, Temperature, Time (5568 samples, 15-min intervals)]
     B --> C[Data Preprocessing]
-    C --> C1["Apply Moving Average Filter\nWindow Size = 10"]
-    C1 --> C2["Convert Time to Real Number\nHH + MM/60"]
+    C --> C1[Moving Average Filter (Window = 10)]
+    C1 --> C2[Convert Time to Real Number (HH + MM/60)]
     C --> D[Data Normalization]
-    D --> D1["Min-Max Normalization\nIrradiance"]
-    D1 --> D2["Min-Max Normalization\nTemperature"]
+    D --> D1[Min-Max Normalization (Irradiance)]
+    D1 --> D2[Min-Max Normalization (Temperature)]
     D --> E[Feature Engineering]
-    E --> E1["Create Sequences\nLag by 1 time step"]
+    E --> E1[Create Sequences (Lag 1 time step)]
     E --> F[LSTM Model Design]
-    F --> F1["Standalone LSTM\nInputs: Temp(t-1), Time\nOutput: Temp(t)"]
-    F1 --> F2["Dual-Input LSTM\nInputs: Irr(t-1), Temp(t), Time\nOutput: Irr(t)"]
+    F --> F1[Standalone LSTM: Temp(t-1), Time -> Temp(t)]
+    F1 --> F2[Dual-Input LSTM: Irr(t-1), Temp(t), Time -> Irr(t)]
     F --> G[Model Training]
-    G --> G1["Train LSTMs\n90 Hidden Units, 0.01 Learning Rate, 200 Epochs"]
-    G1 --> G2["Split Data\n80% Train: 4454 samples\n10% Validation: 557 samples\n10% Test: 557 samples"]
-    G --> H["Model Evaluation\nRMSE, MAE, MAPE"]
-    H --> I["Prediction\nIrradiance at t"]
-    I --> J["Denormalize Predictions\nReverse Min-Max"]
-    J --> K["Output Results\nSave/Visualize"]
+    G --> G1[Train LSTMs (90 Units, 0.01 LR, 200 Epochs)]
+    G1 --> G2[Split Data: 80% Train, 10% Val, 10% Test]
+    G --> H[Evaluate: RMSE, MAE, MAPE]
+    H --> I[Predict Irradiance at t]
+    I --> J[Denormalize Predictions (Reverse Min-Max)]
+    J --> K[Output Results (Save/Visualize)]
     K --> L[End]
 ```
+
 ---
 
 ## 🧠 Project Overview
